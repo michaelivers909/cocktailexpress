@@ -13,5 +13,5 @@ app.use("/cocktails", cocktailRoutes);
 
 app.get("/", (req,res) => res.send("server this is"));
 app.get("*", (req,res) => res.redirect("/"));
-app.listen(PORT, () => console.log(`open doors on port there are`));
+app.listen(PORT, () => console.log(`open doors on port there are: ${PORT}`));
 
