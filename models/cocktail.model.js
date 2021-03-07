@@ -37,37 +37,40 @@ async function add(res, drink, gif) {
   }
 }
 
-async function remove(res, id){
+async function remove(res, id) {
   try {
     await pool.query("DELETE from cocktails WHERE cocktails.id = ?", [id]);
     return res.send({
       success: true,
       data: " Saved cocktail successfully deleted.",
       error: null,
-    })
+    });
   } catch (err) {
-    returen res.send({
+    return res.send({
       success: false,
       data: null,
       error: err,
     });
-}}
+  }
+}
 
-async function byUser_id(res, user_Id){
+async function byUser_id(res, user_Id) {
   try {
-  const [cocktails] = await pool.query("SELECT * FROM cocktails WHERE cocktails.user_id = ?,"[user_id])
-      return res.send ({
-          success: true,
-          data: cocktails,
-          error: null,
+    const [cocktails] = await pool.query(
+      "SELECT * FROM cocktails WHERE cocktails.user_id = ?,"[user_id]
+    );
+    return res.send({
+      success: true,
+      data: cocktails,
+      error: null,
+    });
+  } catch (err) {
+    return res.send({
+      success: false,
+      data: null,
+      error: err,
+    });
+  }
+}
 
-      });
-      } catch (err) {
-          return res.send({
-              success: false,
-              data: null, 
-              error: err,
-          });
-}}
-
-module.exports = {add, remove, byUser_id};
+module.exports = { add, remove, byUser_id };
