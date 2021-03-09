@@ -11,7 +11,7 @@ async function add(res, drink, gif) {
       throw "Unable to retrieve cocktail data.";
     }
     await pool.query(
-      "INSERT into cocktail(user_Id, gif, drink_Id, drink, indredients, instructions) VALUES(?,?,?,?,?,?,?)",
+      "INSERT into cocktail(user_Id, gif, drink_Id, drink, ingredients, instructions) VALUES(?,?,?,?,?,?,?)",
       [
         cocktail.user_Id,
         cocktail.gif,
