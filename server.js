@@ -10,12 +10,13 @@ const PORT = process.env.PORT || 3000;
 const bodyParser = require("body-parser");
 
 app.use(bodyParser.json());
-app.use(session({ 
-secret: process.env,
-resave: true,
-saveUninitialized: false,
- })
- );
+app.use(
+  session({
+    secret: process.env,
+    resave: true,
+    saveUninitialized: false,
+  })
+);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -23,6 +24,7 @@ app.use(passport.session());
 app.use("/users", userRoutes);
 app.use("/cocktails", cocktailRoutes);
 
-app.get("/", (req, res) => res.send("server this is"));
-app.get("*", (req, res) => res.redirect("/"));
+app.get("*", (req, res) => {
+  res.sendFile("/build/index.html", { root: __dirname + "/" });
+});
 app.listen(PORT, () => console.log(`open doors on port there are: ${PORT}`));
