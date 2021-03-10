@@ -10,7 +10,12 @@ const PORT = process.env.PORT || 3000;
 const bodyParser = require("body-parser");
 
 app.use(bodyParser.json());
-app.use(session({ secret: process.env.SECRET_KEY }));
+app.use(session({ 
+secret: process.env,
+resave: true,
+saveUninitialized: false,
+ })
+ );
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
 app.use(passport.session());

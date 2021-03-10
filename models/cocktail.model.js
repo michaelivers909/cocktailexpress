@@ -1,6 +1,6 @@
 const pool = require("../config/mysql.config");
 
-async function add(res, drink, gif) {
+async function add(res, drink, gif, user_Id) {
   try {
     if (
       !drink.drink_Id ||
@@ -37,7 +37,7 @@ async function add(res, drink, gif) {
   }
 }
 
-async function remove(res, id) {
+async function remove(res, id, user_Id) {
   try {
     await pool.query("DELETE from cocktails WHERE cocktails.id = ?", [id]);
     return res.send({

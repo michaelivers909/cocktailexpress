@@ -10,7 +10,7 @@ async function signUp(res, username, password) {
     if (isInvalid(username, 7, 20) || isInvalid(password, 7, 20)) {
       throw "Username and Password must be between 7 and 20 characters.";
     }
-    let [user] = await pool.query("SELECT * WHERE users.username = ?", [
+    let [user] = await pool.query("SELECT * FROM users WHERE users.username = ?", [
       username,
     ]);
     if (user.length > 0) {
