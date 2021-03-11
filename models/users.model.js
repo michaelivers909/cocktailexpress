@@ -23,7 +23,7 @@ async function signUp(res, username, password) {
     ]);
     return res.send({
       success: true,
-      data: "Success!! Thank you for signing up.",
+      data: { username: username }, 
       error: null,
     });
   } catch (err) {
