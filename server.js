@@ -5,10 +5,10 @@ const app = express();
 const userRoutes = require("./routes/users.routes");
 const cocktailRoutes = require("./routes/cocktails.routes");
 const session = require("express-session");
-
 const PORT = process.env.PORT || 8080;
 const bodyParser = require("body-parser");
 
+app.use(express.static(__dirname + "/build"));
 app.use(bodyParser.json());
 app.use(
   session({
@@ -20,10 +20,8 @@ app.use(
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
 app.use(passport.session());
-
 app.use("/users", userRoutes);
-app.use("/cocktails", cocktailRoutes);
-
+app.use("/cocktails", cocktailRoutes); 
 app.get("*", (req, res) => {
   res.sendFile("/build/index.html", { root: __dirname + "/" });
 });
