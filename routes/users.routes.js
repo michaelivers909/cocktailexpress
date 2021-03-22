@@ -19,15 +19,18 @@ router.post("/signup", (req, res) => {
 });
 
 router.post("/login", (req, res) => {
-  // userFunctions.login(res, req.body.username, req.body.password);
   passport.authenticate("local", (err, user, info) => {
     if (err) {
-      return res.send({ success: false, data: null, error: err });
+      return res.send({ success: false, 
+        data: null, 
+        error: "Something went wrong, please try again later.", 
+      });
     }
     if (!user) {
       return res.send({ success: false, data: null, error: info });
     }
     req.logIn(user, (err) => {
+      console.log(user)
       return res.send({
         success: true,
         data: { username: user.username },

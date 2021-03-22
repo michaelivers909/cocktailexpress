@@ -1,6 +1,6 @@
 const pool = require("../config/mysql.config");
 
-async function add(res, drink, gif, user_Id) {
+async function add(res, drink, user_Id) {
   try {
     if (
       !drink.drink_Id ||
@@ -11,14 +11,14 @@ async function add(res, drink, gif, user_Id) {
       throw "Unable to retrieve cocktail data.";
     }
     await pool.query(
-      "INSERT into cocktail(user_Id, gif, drink_Id, drink, ingredients, instructions) VALUES(?,?,?,?,?,?,?)",
+      "INSERT into saved(user_Id, gif, drink_Id, drink, ingredients, instructions) VALUES(?,?,?,?,?,?,?)",
       [
-        cocktail.user_Id,
-        cocktail.gif,
-        cocktail.drink_Id,
-        cocktail.drink,
-        cocktail.ingredients,
-        cocktail.instructions,
+        user_Id,
+        drink.gif,
+        drink.drink_Id,
+        drink.drink,
+        drink.ingredients,
+        drink.instructions,
       ]
     );
 
@@ -39,7 +39,7 @@ async function add(res, drink, gif, user_Id) {
 
 async function remove(res, id, user_Id) {
   try {
-    await pool.query("DELETE from cocktails WHERE cocktails.id = ?", [id]);
+    await pool.query("DELETE from saved WHERE saved.id = ?", [id]);
     return res.send({
       success: true,
       data: " Saved cocktail successfully deleted.",
@@ -56,12 +56,12 @@ async function remove(res, id, user_Id) {
 
 async function byUser_id(res, user_Id) {
   try {
-    const [cocktails] = await pool.query(
-      "SELECT * FROM cocktails WHERE cocktails.user_id = ?,"[user_id]
+    const [user_Id] = await pool.query(
+      "SELECT * FROM saved WHERE saved.user_id = ?,"[user_id]
     );
     return res.send({
       success: true,
-      data: cocktails,
+      data: saved,
       error: null,
     });
   } catch (err) {
@@ -72,5 +72,25 @@ async function byUser_id(res, user_Id) {
     });
   }
 }
+
+async function saved(res) {
+  try {
+    // get by userID
+    const [saved] = await pool.query("SELECT * FROM saved");
+    // send success message
+    res.send({
+      success: true,
+      data: saved,
+      error: null,
+    });
+  } catch (err) {
+    return res.send({
+      success: false,
+      data: null,
+      error: err,
+    });
+  }
+}
+
 
 module.exports = { add, remove, byUser_id };

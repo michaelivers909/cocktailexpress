@@ -27,35 +27,11 @@ async function signUp(res, username, password) {
       error: null,
     });
   } catch (err) {
-    console.log(err);
     return res.send({ success: false, data: null, error: err });
   }
 }
 
-// async function login(res, username, password) {
-  // try {
-    // if (isInvalid(username, 7, 20) || isInvalid(password, 7, 20)) {
-      // throw "Invalid username or password, please try again.";
-    // }
-    // let [users] = pool.query("SELECT * FROM users WHERE users.username =?", [
-      // username,
-    // ]);
-    // if (users.length === 0) {
-      // throw "Invalid username or password, please try again.";
-    // }
-    // const match = await bcrypt.compare(password, users[0].password);
-    // if (!match) {
-      // throw "Invalid password, please re-enter.";
-    // }
-    // res.send({
-      // success: true,
-      // data: { username: users[0].username },
-      // error: null,
-    // });
-  // } catch (err) {
-    // return res.send({ success: false, data: null, error: err });
-  // }
-// }
+
 
 module.exports.signUp = signUp;
-// module.exports.login = login;
+

@@ -1,18 +1,22 @@
 const express = require("express");
 const isAuth = require("../middleware/isAuth");
 const router = express.Router();
-const cocktails = require("../models/cocktail.model");
+const saved = require("../models/saved.model");
 
 router.post("/add", isAuth, (req, res) => {
-  return cocktails.add(res, req.body, req.user.id);
+  return saved.add(res, req.body, req.user.id);
 });
 
 router.get("/delete/:id", isAuth, (req, res) => {
-  return cocktails.remove(res, req.params.id, req.user.id);
+  return saved.remove(res, req.params.id, req.user.id);
 });
 
 router.get("/user", isAuth, (req, res) => {
-  return cocktails.byUser_id(res, req.params.id);
+  return saved.byUser_id(res, req.params.id);
+});
+
+router.get("/saved", isAuth, (req, res) => {
+  return saved.all(res);
 });
 
 // router.get("/user/", (req, res) => {
