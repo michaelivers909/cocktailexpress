@@ -12,7 +12,7 @@ app.use(express.static(__dirname + "/build"));
 app.use(bodyParser.json());
 app.use(
   session({
-    secret: process.env,
+    secret: process.env.SECRET_KEY,
     resave: true,
     saveUninitialized: false,
   })

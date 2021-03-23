@@ -1,24 +1,25 @@
 const pool = require("../config/mysql.config");
 
-async function add(res, drink, user_Id) {
+async function add(res, drink, user_id) {
   try {
+    console.log(drink)
+    console.log(user_id)
     if (
-      !drink.drink_Id ||
-      drink.drink_Id < 1 ||
-      drink.drink_Id > 40 ||
-      isNaN(drink.drink_Id)
+      !drink.drink.drink_id ||
+      isNaN(drink.drink.drink_id)
     ) {
       throw "Unable to retrieve cocktail data.";
     }
+    console.log("this")
     await pool.query(
-      "INSERT into saved(user_Id, gif, drink_Id, drink, ingredients, instructions) VALUES(?,?,?,?,?,?,?)",
+      "INSERT INTO saved (drink_id, user_id, gif, thumbnail, ingredients, instructions) VALUES (?,?,?,?,?,?)",
       [
-        user_Id,
+        drink.drink.drink_id,
+        user_id,
         drink.gif,
-        drink.drink_Id,
-        drink.drink,
-        drink.ingredients,
-        drink.instructions,
+        drink.drink.thumbnail,
+        JSON.stringify(drink.drink.ingredients),
+        drink.drink.instructions,
       ]
     );
 
@@ -37,12 +38,12 @@ async function add(res, drink, user_Id) {
   }
 }
 
-async function remove(res, id, user_Id) {
+async function remove(res, id, user_id) {
   try {
     await pool.query("DELETE from saved WHERE saved.id = ?", [id]);
     return res.send({
       success: true,
-      data: " Saved cocktail successfully deleted.",
+      data: "Saved cocktail successfully deleted.",
       error: null,
     });
   } catch (err) {
@@ -54,9 +55,9 @@ async function remove(res, id, user_Id) {
   }
 }
 
-async function byUser_id(res, user_Id) {
+async function byUser_id(res, user_id) {
   try {
-    const [user_Id] = await pool.query(
+    const [user_id] = await pool.query(
       "SELECT * FROM saved WHERE saved.user_id = ?,"[user_id]
     );
     return res.send({
